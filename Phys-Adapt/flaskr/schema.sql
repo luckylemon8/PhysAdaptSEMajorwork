@@ -1,0 +1,17 @@
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS question;
+
+CREATE TABLE user (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
+CREATE TABLE question (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+  question_title TEXT NOT NULL,
+  question_image TEXT NOT NULL,
+  answer TEXT NOT NULL,
+  band INTEGER NOT NULL,
+  recommended_time INTEGER NOT NULL,
+  module INTEGER NOT NULL
+);
