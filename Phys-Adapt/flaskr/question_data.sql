@@ -1,2 +1,20 @@
-INSERT INTO question (question_title, question_image, answer, band, recommended_time, module)
-VALUES ('Past HSC 2017 - Q3', '/static/images/questions/Past HSC 2017 - Q3.png','A', 2, 120, 6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q3','/static/images/questions/Past HSC 2017 - Q3.png','1','A',2,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q4','/static/images/questions/Past HSC 2017 - Q4.png','2','B',3,2,5);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q5','/static/images/questions/Past HSC 2017 - Q5.png','3','A',4,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q6','/static/images/questions/Past HSC 2017 - Q6.png','4','B',5,2,5);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q7','/static/images/questions/Past HSC 2017 - Q7.png','5','D',2,2,8);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q8','/static/images/questions/Past HSC 2017 - Q8.png','6','B',1,2,8);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q9','/static/images/questions/Past HSC 2017 - Q9.png','7','D',4,2,7);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q10','/static/images/questions/Past HSC 2017 - Q10.png','8','C',6,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q11','/static/images/questions/Past HSC 2017 - Q11.png','9','A',3,2,7);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q12','/static/images/questions/Past HSC 2017 - Q12.png','10','A',3,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q13','/static/images/questions/Past HSC 2017 - Q13.png','11','C',5,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q14','/static/images/questions/Past HSC 2017 - Q14.png','12','B',6,2,5);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q15','/static/images/questions/Past HSC 2017 - Q15.png','13','C',3,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q16','/static/images/questions/Past HSC 2017 - Q16.png','14','A',3,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q17','/static/images/questions/Past HSC 2017 - Q17.png','15','B',1,2,5);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q18','/static/images/questions/Past HSC 2017 - Q18.png','16','D',2,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q19','/static/images/questions/Past HSC 2017 - Q19.png','17','B',1,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q20','/static/images/questions/Past HSC 2017 - Q20.png','18','C',2,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q21','/static/images/questions/Past HSC 2017 - Q21.png','19','C',5,2,6);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q22','/static/images/questions/Past HSC 2017 - Q22.png','20','D',6,2,7);
