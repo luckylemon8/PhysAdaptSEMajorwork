@@ -29,7 +29,9 @@ CREATE TABLE quiz (
 CREATE TABLE question_response (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   quiz_id INTEGER NOT NULL,
-  answer TEXT
+  question_id INTEGER NOT NULL,
+  answer TEXT,
+  question_number INTEGER 
 );
 
 CREATE TABLE question (

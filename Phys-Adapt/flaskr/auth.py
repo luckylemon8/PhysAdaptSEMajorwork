@@ -41,7 +41,6 @@ def register():
                 error = f"User {username} is already registered."
             else:
                 return redirect(url_for("auth.login"))
-
         flash(error)
 
     return render_template("auth/register.html")
@@ -66,7 +65,7 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for("index"))
+            return redirect(url_for("question.welcome"))
 
         flash(error)
 
