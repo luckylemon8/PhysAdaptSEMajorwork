@@ -19,3 +19,4 @@ INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band'
 INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q20','/static/images/questions/Past HSC 2017 - Q20.png','18','C',2,2,6);
 INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q21','/static/images/questions/Past HSC 2017 - Q21.png','19','C',5,2,6);
 INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('Past HSC 2017 - Q22','/static/images/questions/Past HSC 2017 - Q22.png','20','D',6,2,7);
+INSERT INTO question ('question_title', 'question_image', 'id', 'answer', 'band', 'recommended_time', 'module') VALUES ('HSC Physics 2022 - Q1','/static/images/questions/HSC Physics 2022 - Q1.png','21','B',2,2,8);
