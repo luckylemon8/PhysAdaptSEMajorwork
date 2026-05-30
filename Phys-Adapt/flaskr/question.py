@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint
 from flaskr.db import get_db
+import random
 
 bp = Blueprint("question", __name__)
 
@@ -21,11 +22,26 @@ def test_your_level():
     mod_6_questions = db.execute("SELECT * FROM question WHERE module = '6'").fetchall()
     mod_7_questions = db.execute("SELECT * FROM question WHERE module = '7'").fetchall()
     mod_8_questions = db.execute("SELECT * FROM question WHERE module = '8'").fetchall()
-    print(len(mod_5_questions))
-    print(len(mod_6_questions))
-    print(len(mod_7_questions))
-    print(len(mod_8_questions))
+
+    quiz = {}
+
+    add_module_questions(mod_5_questions, quiz, 3)
+    add_module_questions(mod_6_questions, quiz, 3)
+    add_module_questions(mod_7_questions, quiz, 3)
+    add_module_questions(mod_8_questions, quiz, 3)
+
+    print(quiz)
+
     return render_template("question/test_your_level.html")
+
+
+def add_module_questions(questions, quiz, number_of_questions):
+    count = 1
+    while count <= number_of_questions:
+        q = questions[random.randint(0, len(questions) - 1)]
+        if q["id"] not in quiz:
+            quiz[q["id"]] = q
+            count += 1
 
 
 @bp.route("/question")
