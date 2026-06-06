@@ -100,6 +100,7 @@ def question_page(question_number, quiz_id):
     return render_template(
         "question/question.html",
         question=question,
+        question_response=question_response,
         previous_question_number=(int(question_number) - 1),
         next_question_number=int(question_number) + 1,
     )

@@ -7,7 +7,10 @@
 
 <img class="question" src="{{ question['question_image'] }}" />
 
-<form method="post">
+<form
+  method="post"
+  action="/question/{{question_response['question_number']}}/{{question_response['quiz_id']}}"
+>
   <label class="option">
     <input type="radio" name="answer" value="A" /> A
   </label>
