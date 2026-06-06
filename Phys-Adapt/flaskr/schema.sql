@@ -23,7 +23,7 @@ CREATE TABLE error_scores (
 CREATE TABLE quiz (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,
-  date_completed DATE NOT NULL
+  date_completed DATE
 );
 
 CREATE TABLE question_response (

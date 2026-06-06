@@ -7,21 +7,28 @@
 
 <img class="question" src="{{ question['question_image'] }}" />
 
-<label class="option"> <input type="radio" name="answer" value="A" /> A </label>
+<form method="post">
+  <label class="option">
+    <input type="radio" name="answer" value="A" /> A
+  </label>
 
-<label class="option"> <input type="radio" name="answer" value="B" /> B </label>
+  <label class="option">
+    <input type="radio" name="answer" value="B" /> B
+  </label>
 
-<label class="option"> <input type="radio" name="answer" value="C" /> C </label>
+  <label class="option">
+    <input type="radio" name="answer" value="C" /> C
+  </label>
 
-<label class="option"> <input type="radio" name="answer" value="D" /> D </label>
+  <label class="option">
+    <input type="radio" name="answer" value="D" /> D
+  </label>
 
-<p>Recommended time: {{ question['recommended_time'] }} seconds</p>
+  <p>Recommended time: {{ question['recommended_time'] }} seconds</p>
 
-<div class="actions">
-  <button onclick="check()">Check answer</button>
-  <button onclick="reset()">Reset</button>
-</div>
-
-<div id="feedback"></div>
-
+  <div class="actions">
+    <input type="submit" value="Submit" />
+  </div>
+  <hidden name="question_number" value="{{next_question_number}}" />
+</form>
 {% endblock %}
