@@ -72,16 +72,19 @@ def add_module_questions(questions, quiz, number_of_questions):
 
 @bp.route("/question/<int:question_number>/<int:quiz_id>", methods=("GET", "POST"))
 def question_page(question_number, quiz_id):
-
     db = get_db()
 
     if request.method == "POST":
-        answer = request.form["answer"]
-        db.execute(
-            "UPDATE question_response SET answer = ? WHERE question_number = ? AND quiz_id = ?",
-            (answer, question_number, quiz_id),
-        )
-        question_number += 1
+        if request.form.get("answer"):
+            answer = request.form["answer"]
+            db.execute(
+                "UPDATE question_response SET answer = ? WHERE question_number = ? AND quiz_id = ?",
+                (answer, question_number, quiz_id),
+            )
+        if request.form.get("Next"):
+            question_number += 1
+        elif request.form.get("Previous"):
+            question_number -= 1
 
     db.commit()
 
@@ -95,7 +98,10 @@ def question_page(question_number, quiz_id):
         (question_response["question_id"],),
     ).fetchone()
 
-    print(question)
+    previous_question_number = question_number - 1
+    next_question_number = question_number + 1
+    if next_question_number > 12:
+        next_question_number = 0
 
     return render_template(
         "question/question.html",

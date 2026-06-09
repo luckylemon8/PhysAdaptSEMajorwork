@@ -12,26 +12,33 @@
   action="/question/{{question_response['question_number']}}/{{question_response['quiz_id']}}"
 >
   <label class="option">
-    <input type="radio" name="answer" value="A" /> A
+    <input type="radio" name="answer" value="A" {{ 'checked' if question_response['answer'] == 'A' }}/> A
   </label>
 
   <label class="option">
-    <input type="radio" name="answer" value="B" /> B
+    <input type="radio" name="answer" value="B" {{ 'checked' if question_response['answer'] == 'B' }}/> B
   </label>
 
   <label class="option">
-    <input type="radio" name="answer" value="C" /> C
+    <input type="radio" name="answer" value="C" {{ 'checked' if question_response['answer'] == 'C' }}/> C
   </label>
 
   <label class="option">
-    <input type="radio" name="answer" value="D" /> D
+    <input type="radio" name="answer" value="D" {{ 'checked' if question_response['answer'] == 'D' }}/> D
   </label>
 
   <p>Recommended time: {{ question['recommended_time'] }} seconds</p>
 
   <div class="actions">
-    <input type="submit" value="Submit" />
+    {% if previous_question_number > 0 %}
+    <input type="submit" name="Previous" value="Previous" />
+    {% endif %}
+
+    {% if next_question_number > 0 %}
+    <input type="submit" name="Next" value="Next" />
+    {% else %}
+    <input type="submit" name="Finish" value="Finish" />
+    {% endif %}
   </div>
-  <hidden name="question_number" value="{{next_question_number}}" />
 </form>
 {% endblock %}
