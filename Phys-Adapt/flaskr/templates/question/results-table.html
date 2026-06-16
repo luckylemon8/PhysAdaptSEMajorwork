@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block header %}
+<div class="section">
+    <p class="section-title">Test Results</p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Question Number</th>
+                <th>Module</th>
+                <th>User answer</th>
+                <th>Correct answer</th>
+              </tr>
+            </thead>
+            <tbody>
+        {% for result in results %}
+            <tr>
+                <td class="col-text">Question {{ result['question_number'] }}</td>
+                <td class="col-num">{{ result['module'] }}</td>
+                <td class="col-text">{{ result['user_answer'] }}</td>
+                <td class="col-text">{{ result['correct_answer'] }}</td>
+            </tr>
+        {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+</div>
+{% endblock %}

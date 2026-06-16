@@ -1,0 +1,121 @@
+
+<style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #f9f9f9;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    div {
+      font-size: 1.5rem;
+      color: #555;
+      margin-bottom: 24px;
+      margin-top: 19px;
+      margin-right: 10px;
+    }
+
+    img.question {
+      width: 35%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: white;
+      display: block;
+      margin-bottom: 24px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      width: 20%;
+    }
+
+    .option:hover { background: #f0f0f0; }
+    .option input  { cursor: pointer; }
+
+    .actions {
+      font-size: 20px;
+      font-size: 1.25rem;
+      padding: 12px 24px; margin-top:
+      30px; display: flex; gap: 30px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    button {font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 0.5px solid rgba(0,0,0,0.2);
+      background: transparent;
+      color: #1a1a18;
+      cursor: pointer;
+      transition: background 0.12s; 
+    }
+
+    #feedback {
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .correct   { background: #e6f4ea; color: #1e6b30; border: 1px solid #9ecfaa; }
+    .incorrect { background: #fdecea; color: #b83232; border: 1px solid #f0a0a0; }
+    .neutral   { background: #f0f0f0; color: #555;    border: 1px solid #ccc; }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+      padding: 0 1.5rem;
+      background: #fff;
+      border-bottom: 0.5px solid rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav h1 {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+    nav h1 a {
+      font-family: inherit;
+      text-decoration: none;
+      padding: 0.25rem 0.5rem;
+    }
+    nav ul {
+      font-family: inherit;
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a,
+    nav ul li span,
+    header .action {
+      display: block;
+      padding: 1rem;
+    }
+
+    p {
+      font-family: inherit;
+      text-align: right;
+      margin-right: 10px;
+    }
+</style>

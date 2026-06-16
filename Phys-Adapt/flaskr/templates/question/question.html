@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block header %}
 <div style="display: flex; justify-content: space-between; align-items: center">
-  <div>{{ question['question_title'] }}</div>
-  <div>Band: {{ question['band'] }}</div>
+  <div>Question {{ question_response['question_number'] }}</div>
+  <div>Band: {{ question['band'] }} </div>
 </div>
 {% endblock %} {% block content %}
 
@@ -11,33 +11,51 @@
   method="post"
   action="/question/{{question_response['question_number']}}/{{question_response['quiz_id']}}"
 >
-  <label class="option">
-    <input type="radio" name="answer" value="A" {{ 'checked' if question_response['answer'] == 'A' }}/> A
-  </label>
+<div class="row-fixed-100 cols-2">
+  <div class="field">
+  <label class="option">A</label>
+  </div>
+  <div class="field">
+    <input type="radio" name="answer" value="A" {{ 'checked' if question_response['answer'] == 'A' }}/> 
+  </div> 
+</div>
 
-  <label class="option">
-    <input type="radio" name="answer" value="B" {{ 'checked' if question_response['answer'] == 'B' }}/> B
-  </label>
+<div class="row-fixed-100 cols-2">
+  <div class="field">
+  <label class="option">B</label>
+  </div>
+  <div class="field">
+    <input type="radio" name="answer" value="B" {{ 'checked' if question_response['answer'] == 'B' }}/> 
+  </div> 
+</div>
 
-  <label class="option">
-    <input type="radio" name="answer" value="C" {{ 'checked' if question_response['answer'] == 'C' }}/> C
-  </label>
+<div class="row-fixed-100 cols-2">
+  <div class="field">
+  <label class="option">C</label>
+  </div>
+  <div class="field">
+    <input type="radio" name="answer" value="C" {{ 'checked' if question_response['answer'] == 'C' }}/> 
+  </div> 
+</div>
 
-  <label class="option">
-    <input type="radio" name="answer" value="D" {{ 'checked' if question_response['answer'] == 'D' }}/> D
-  </label>
+<div class="row-fixed-100 cols-2">
+  <div class="field">
+  <label class="option">D</label>
+  </div>
+  <div class="field">
+    <input type="radio" name="answer" value="D" {{ 'checked' if question_response['answer'] == 'D' }}/> 
+  </div> 
+</div>
 
-  <p>Recommended time: {{ question['recommended_time'] }} seconds</p>
-
-  <div class="actions">
+  <div class="form-actions">
     {% if previous_question_number > 0 %}
-    <input type="submit" name="Previous" value="Previous" />
+    <button type="submit" name="Previous" value="Previous">Previous</button>
     {% endif %}
 
     {% if next_question_number > 0 %}
-    <input type="submit" name="Next" value="Next" />
+    <button type="submit" name="Next" value="Next">Next</button>
     {% else %}
-    <input type="submit" name="Finish" value="Finish" />
+    <button type="submit" name="Finish" value="Finish">Finish</button>
     {% endif %}
   </div>
 </form>

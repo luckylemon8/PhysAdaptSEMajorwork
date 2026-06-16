@@ -70,6 +70,21 @@ def add_module_questions(questions, quiz, number_of_questions):
             count += 1
 
 
+@bp.route("/finish_quiz/<int:quiz_id>")
+def finish_quiz(quiz_id):
+    db = get_db()
+    results = db.execute(
+        "SELECT question_number, module, question_response.answer as user_answer, question.answer as correct_answer "
+        "FROM question_response, question WHERE question_response.question_id = question.id AND quiz_id = ?",
+        (quiz_id,),
+    ).fetchall()
+    for result in results:
+        print(result)
+        for key in result.keys():
+            print("key:" + str(key) + ",value:" + str(result[key]))
+    return render_template("question/results-table.html", results=results)
+
+
 @bp.route("/question/<int:question_number>/<int:quiz_id>", methods=("GET", "POST"))
 def question_page(question_number, quiz_id):
     db = get_db()
@@ -81,12 +96,14 @@ def question_page(question_number, quiz_id):
                 "UPDATE question_response SET answer = ? WHERE question_number = ? AND quiz_id = ?",
                 (answer, question_number, quiz_id),
             )
+
+        db.commit()
         if request.form.get("Next"):
             question_number += 1
         elif request.form.get("Previous"):
             question_number -= 1
-
-    db.commit()
+        elif request.form.get("Finish"):
+            return redirect(url_for("question.finish_quiz", quiz_id=quiz_id))
 
     question_response = db.execute(
         "SELECT * FROM question_response WHERE question_number = ? AND quiz_id = ?",
@@ -103,10 +120,13 @@ def question_page(question_number, quiz_id):
     if next_question_number > 12:
         next_question_number = 0
 
+    print(previous_question_number)
+    print(next_question_number)
+
     return render_template(
         "question/question.html",
         question=question,
         question_response=question_response,
-        previous_question_number=(int(question_number) - 1),
-        next_question_number=int(question_number) + 1,
+        previous_question_number=previous_question_number,
+        next_question_number=next_question_number,
     )
