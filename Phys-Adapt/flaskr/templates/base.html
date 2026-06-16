@@ -2,7 +2,12 @@
 <title>{% block title %}{% endblock %} - Phys-Adapt</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 <nav class="nav">
-  <h1><a href="/">Phys-Adapt</a></h1>
+  <h1>
+    <img
+      src="{{ url_for('static', filename='images/logo.jpeg') }}"
+      alt="Phys Adapt"
+    />
+  </h1>
   <ul class="nav-links">
     {% if g.user %}
     <li><span>{{ g.user['username'] }}</span></li>

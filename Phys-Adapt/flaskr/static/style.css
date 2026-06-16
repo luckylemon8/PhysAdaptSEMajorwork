@@ -18,7 +18,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 52px;
+  height: 70px;
   padding: 0 1.5rem;
   background: #fff;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
@@ -33,6 +33,10 @@ body {
   color: #1a1a18;
   text-decoration: none;
   letter-spacing: -0.01em;
+}
+
+.nav img {
+  height: 70px;
 }
 
 .nav-links {
