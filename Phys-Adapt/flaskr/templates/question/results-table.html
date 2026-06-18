@@ -14,7 +14,9 @@
             <tbody>
         {% for result in results %}
             <tr>
-                <td class="col-text">Question {{ result['question_number'] }}</td>
+                <td class="col-text"><a href="{{ url_for('/question_viewer/{{question_response['question_number']}}/{{question_response['quiz_id']}}') }}">
+  Question {{result['question_number']}}</a
+></td>
                 <td class="col-num">{{ result['module'] }}</td>
                 <td class="col-text">{{ result['user_answer'] }}</td>
                 <td class="col-text">{{ result['correct_answer'] }}</td>

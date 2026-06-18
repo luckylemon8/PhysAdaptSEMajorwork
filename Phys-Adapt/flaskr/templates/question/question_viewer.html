@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block header %}
+<div style="display: flex; justify-content: space-between; align-items: center">
+  <div>Question {{ question_response['question_number'] }}</div>
+  <div>Band: {{ question['band'] }}</div>
+</div>
+{% endblock %} {% block content %}
+
+<img class="question" src="{{ question['question_image'] }}" />
+
+<form
+  method="post"
+  action="/question/{{question_response['question_number']}}/{{question_response['quiz_id']}}"
+>
+  <p>user answer = {{question_response['answer']}}</p>
+  <p>correct answer = {{question['answer']}}</p>
+
+  <button>
+    <a href="{{ url_for('/finish_quiz/{{question_response['quiz_id']}}') }}">
+      Back to Questions</a
+    >
+  </button>
+</form>
+{% endblock %}

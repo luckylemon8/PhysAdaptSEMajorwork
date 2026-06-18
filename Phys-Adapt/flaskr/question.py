@@ -130,3 +130,24 @@ def question_page(question_number, quiz_id):
         previous_question_number=previous_question_number,
         next_question_number=next_question_number,
     )
+
+
+@bp.route("/question_viewer/<int:question_number>/<int:quiz_id>")
+def view_question(question_number, quiz_id):
+    db = get_db()
+
+    question_response = db.execute(
+        "SELECT * FROM question_response WHERE question_number = ? AND quiz_id = ?",
+        (question_number, quiz_id),
+    ).fetchone()
+
+    question = db.execute(
+        "SELECT * FROM question WHERE id = ?",
+        (question_response["question_id"],),
+    ).fetchone()
+
+    return render_template(
+        "question/question_viewer.html",
+        question=question,
+        question_response=question_response,
+    )
