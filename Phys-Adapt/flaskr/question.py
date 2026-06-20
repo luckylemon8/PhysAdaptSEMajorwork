@@ -82,7 +82,9 @@ def finish_quiz(quiz_id):
         print(result)
         for key in result.keys():
             print("key:" + str(key) + ",value:" + str(result[key]))
-    return render_template("question/results-table.html", results=results)
+    return render_template(
+        "question/results-table.html", results=results, quiz_id=quiz_id
+    )
 
 
 @bp.route("/question/<int:question_number>/<int:quiz_id>", methods=("GET", "POST"))
@@ -103,6 +105,7 @@ def question_page(question_number, quiz_id):
         elif request.form.get("Previous"):
             question_number -= 1
         elif request.form.get("Finish"):
+            update_error_scores(quiz_id)
             return redirect(url_for("question.finish_quiz", quiz_id=quiz_id))
 
     question_response = db.execute(
@@ -151,3 +154,37 @@ def view_question(question_number, quiz_id):
         question=question,
         question_response=question_response,
     )
+
+
+def update_error_scores(quiz_id):
+    db = get_db()
+    base_user_scores = db.execute(
+        "SELECT mod_5_error_score, mod_6_error_score, mod_7_error_score, mod_8_error_score FROM error_scores WHERE user_id=?",
+        (g.user["id"],),
+    ).fetchone()
+
+    results = db.execute(
+        "SELECT question_number, module, question_response.answer as user_answer, question.answer as correct_answer "
+        "FROM question_response, question WHERE question_response.question_id = question.id AND quiz_id = ?",
+        (quiz_id,),
+    ).fetchall()
+
+    module_scores = {}
+
+    module_scores[5] = base_user_scores["mod_5_error_score"]
+    module_scores[6] = base_user_scores["mod_6_error_score"]
+    module_scores[7] = base_user_scores["mod_7_error_score"]
+    module_scores[8] = base_user_scores["mod_8_error_score"]
+
+    for result in results:
+        if result["user_answer"] != result["correct_answer"]:
+            module_scores[result["module"]] += 4
+        else:
+            module_scores[result["module"]] -= 3
+
+    db.execute(
+        "UPDATE error_scores SET mod_5_error_score = ?, mod_6_error_score = ?, mod_7_error_score = ?, mod_8_error_score = ? WHERE user_id = ?",
+        (module_scores[5], module_scores[6], module_scores[7], module_scores[8], g.user["id"])
+    )
+    db.commit()
+

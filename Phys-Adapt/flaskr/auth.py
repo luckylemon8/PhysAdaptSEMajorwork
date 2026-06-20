@@ -1,4 +1,5 @@
 import functools
+from datetime import datetime
 
 from flask import (
     Blueprint,
@@ -32,9 +33,14 @@ def register():
 
         if error is None:
             try:
-                db.execute(
+                cursor = db.execute(
                     "INSERT INTO user (username, password) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
+                )
+                print(cursor.lastrowid)
+                db.execute(
+                    "INSERT INTO error_scores (user_id, mod_5_error_score, mod_6_error_score, mod_7_error_score, mod_8_error_score) VALUES (?, ?, ?, ?, ?)",
+                    (cursor.lastrowid, 25, 25, 25, 25),
                 )
                 db.commit()
             except db.IntegrityError:

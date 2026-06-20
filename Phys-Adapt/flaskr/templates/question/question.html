@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block header %}
-<div style="display: flex; justify-content: space-between; align-items: center">
-  <div>Question {{ question_response['question_number'] }}</div>
-  <div>Band: {{ question['band'] }} </div>
+<div class = "row-full cols-2">
+  <div class="field">Question {{ question_response['question_number'] }}</div>
+  <div class="field">Band: {{ question['band'] }} </div>
 </div>
 {% endblock %} {% block content %}
 

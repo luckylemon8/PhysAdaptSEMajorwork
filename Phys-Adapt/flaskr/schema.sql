@@ -17,7 +17,7 @@ CREATE TABLE error_scores (
   mod_6_error_score INTEGER NOT NULL,
   mod_7_error_score INTEGER NOT NULL,
   mod_8_error_score INTEGER NOT NULL,
-  updated_date_time DATE NOT NULL
+  updated_date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE quiz (
