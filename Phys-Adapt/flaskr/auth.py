@@ -74,11 +74,12 @@ def login():
             if user["test_your_level_complete"] == 1:
                 return redirect(url_for("question.welcome"))
             else:
-                return redirect(url_for("question.test_your_level"))
+                return redirect(url_for("question.new_user"))
 
         flash(error)
 
     return render_template("auth/login.html")
+
 
 @bp.before_app_request
 def load_logged_in_user():

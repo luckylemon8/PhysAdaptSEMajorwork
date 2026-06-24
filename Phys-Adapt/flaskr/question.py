@@ -14,7 +14,13 @@ def index():
 def welcome():
     score_data = generate_score_data()
     print(score_data)
-    return render_template("question/welcome.html", score_data = score_data)
+    return render_template("question/welcome.html", score_data=score_data)
+
+
+@bp.route("/new_user")
+def new_user():
+    return render_template("question/test_your_level.html")
+
 
 def generate_score_data():
     db = get_db()
@@ -26,21 +32,32 @@ def generate_score_data():
         (g.user["id"],),
     ).fetchone()
     print(user_scores)
-    score_data.append(module_score("Advanced Mechanics", user_scores["mod_5_error_score"]))
-    score_data.append(module_score("Electromagnetics", user_scores["mod_6_error_score"]))
-    score_data.append(module_score("The Nature of Light", user_scores["mod_7_error_score"]))
-    score_data.append(module_score("From the Universe to the Atom", user_scores["mod_8_error_score"]))
+    score_data.append(
+        module_score("Advanced Mechanics", user_scores["mod_5_error_score"])
+    )
+    score_data.append(
+        module_score("Electromagnetics", user_scores["mod_6_error_score"])
+    )
+    score_data.append(
+        module_score("The Nature of Light", user_scores["mod_7_error_score"])
+    )
+    score_data.append(
+        module_score("From the Universe to the Atom", user_scores["mod_8_error_score"])
+    )
 
     return score_data
 
+
 def module_score(module_name, error_score):
-    score = {"module_name":module_name,
-            "incorrect_score":error_score,
-            "incorrect_percent":error_score * 2,
-            "correct_score":50-error_score,
-            "correct_percent":2*(50-error_score)
-            }
+    score = {
+        "module_name": module_name,
+        "incorrect_score": error_score,
+        "incorrect_percent": error_score * 2,
+        "correct_score": 50 - error_score,
+        "correct_percent": 2 * (50 - error_score),
+    }
     return score
+
 
 @bp.route("/test_your_level")
 def test_your_level():
@@ -87,6 +104,7 @@ def test_your_level():
         url_for("question.question_page", question_number=1, quiz_id=quiz_id)
     )
 
+
 @bp.route("/adaptive_quiz")
 def adaptive_quiz():
     db = get_db()
@@ -104,12 +122,12 @@ def adaptive_quiz():
         (g.user["id"],),
     ).fetchone()
 
-    mod_5_question_amount = ({{user_scores["mod_5_error_score"]}}/total_error_score * 20)
+    # mod_5_question_amount = ({{user_scores["mod_5_error_score"]}}/total_error_score * 20)
 
-    add_module_questions(mod_5_questions, quiz, mod_5_question_amount)
-    add_module_questions(mod_6_questions, quiz, mod_6_question_amount)
-    add_module_questions(mod_7_questions, quiz, mod_7_question_amount)
-    add_module_questions(mod_8_questions, quiz, mod_8_question_amount)
+    # add_module_questions(mod_5_questions, quiz, mod_5_question_amount)
+    # add_module_questions(mod_6_questions, quiz, mod_6_question_amount)
+    # add_module_questions(mod_7_questions, quiz, mod_7_question_amount)
+    # add_module_questions(mod_8_questions, quiz, mod_8_question_amount)
 
     print(g.user["id"])
 
@@ -140,6 +158,7 @@ def adaptive_quiz():
     return redirect(
         url_for("question.question_page", question_number=1, quiz_id=quiz_id)
     )
+
 
 def add_module_questions(questions, quiz, number_of_questions):
     count = 1
@@ -284,5 +303,3 @@ def update_error_scores(quiz_id):
         ),
     )
     db.commit()
-
-
