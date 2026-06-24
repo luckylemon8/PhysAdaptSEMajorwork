@@ -34,8 +34,8 @@ def register():
         if error is None:
             try:
                 cursor = db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    "INSERT INTO user (username, password, test_your_level_complete) VALUES (?, ?, ?)",
+                    (username, generate_password_hash(password), 0),
                 )
                 print(cursor.lastrowid)
                 db.execute(
@@ -71,7 +71,10 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for("question.welcome"))
+            if user["test_your_level_complete"] == 1:
+                return redirect(url_for("question.welcome"))
+            else:
+                return redirect(url_for("question.test_your_level"))
 
         flash(error)
 

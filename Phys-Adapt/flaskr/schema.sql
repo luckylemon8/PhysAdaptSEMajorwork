@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS question;
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
+  test_your_level_complete INTEGER NOT NULL,
   password TEXT NOT NULL
 );
 

@@ -1,27 +1,35 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Phys-Adapt</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-<nav class="nav">
-  <h1>
-    <img
-      src="{{ url_for('static', filename='images/logo.jpeg') }}"
-      alt="Phys Adapt"
-    />
-  </h1>
-  <ul class="nav-links">
-    {% if g.user %}
-    <li><span>{{ g.user['username'] }}</span></li>
-    <li><a href="{{ url_for('auth.logout') }}">Log Out</a> {% else %}</li>
+<head>
+  <title>{% block title %}{% endblock %} - Phys-Adapt</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='charts.min.css') }}"
+  />
+</head>
+<body>
+  <nav class="nav">
+    <h1>
+      <img
+        src="{{ url_for('static', filename='images/logo.jpeg') }}"
+        alt="Phys Adapt"
+      />
+    </h1>
+    <ul class="nav-links">
+      {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span></li>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a> {% else %}</li>
 
-    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-    <li><a href="{{ url_for('auth.login') }}">Log In</a> {% endif %}</li>
-  </ul>
-</nav>
-<div class="page-wrap">
-  <div class="page">
-    <header>{% block header %}{% endblock %}</header>
-    {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-    {% endfor %} {% block content %}{% endblock %}
+      <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+      <li><a href="{{ url_for('auth.login') }}">Log In</a> {% endif %}</li>
+    </ul>
+  </nav>
+  <div class="page-wrap">
+    <div class="page">
+      <header>{% block header %}{% endblock %}</header>
+      {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+      {% endfor %} {% block content %}{% endblock %}
+    </div>
   </div>
-</div>
+</body>

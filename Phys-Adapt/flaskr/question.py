@@ -106,6 +106,11 @@ def question_page(question_number, quiz_id):
             question_number -= 1
         elif request.form.get("Finish"):
             update_error_scores(quiz_id)
+            db.execute(
+                "UPDATE user SET test_your_level_complete = ? WHERE id = ?",
+                (1, g.user["id"]),
+            )
+            db.commit()
             return redirect(url_for("question.finish_quiz", quiz_id=quiz_id))
 
     question_response = db.execute(
@@ -182,9 +187,20 @@ def update_error_scores(quiz_id):
         else:
             module_scores[result["module"]] -= 3
 
+    for key in module_scores.keys():
+        if module_scores[key] > 50:
+            module_scores[key] = 50
+        if module_scores[key] < 0:
+            module_scores[key] = 0
+
     db.execute(
         "UPDATE error_scores SET mod_5_error_score = ?, mod_6_error_score = ?, mod_7_error_score = ?, mod_8_error_score = ? WHERE user_id = ?",
-        (module_scores[5], module_scores[6], module_scores[7], module_scores[8], g.user["id"])
+        (
+            module_scores[5],
+            module_scores[6],
+            module_scores[7],
+            module_scores[8],
+            g.user["id"],
+        ),
     )
     db.commit()
-

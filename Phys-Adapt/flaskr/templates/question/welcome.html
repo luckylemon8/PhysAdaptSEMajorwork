@@ -2,8 +2,43 @@
 <h1>Welcome to Phys-Adapt, {{ g.user['username'] }}</h1>
 {% endblock %} {% block content %}
 
-<button>
-  <a href="{{ url_for('question.test_your_level') }}"> Test Your Level!</a>
-</button>
+<table class="charts-css bar multiple stacked">
+<table class="charts-css bar">
+  <caption>
+    Error Score for each Module
+  </caption>
 
+  <thead>
+    <tr>
+      <th scope="col">Advanced Mechanics</th>
+      <th scope="col">Electromagnetism</th>
+      <th scope="col">The Nature of Light</th>
+      <th scope="col">From the Universe to the Atom</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <th scope="row">Advanced Mechanics</th>
+      <td>50</td>
+      <td>58</td>
+    </tr>
+    <tr>
+      <th scope="row">Electromagnetism</th>
+      <td>25</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th scope="row">The Nature of Light</th>
+      <td>17</td>
+      <td>33</td>
+    </tr>
+    <tr>
+      <th scope="row">From the Universe to the Atom</th>
+      <td>9</td>
+      <td>41</td>
+    </tr>
+  </tbody>
+</table>
+</body>
 {% endblock %}
