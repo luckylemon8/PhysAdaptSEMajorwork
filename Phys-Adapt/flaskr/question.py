@@ -12,8 +12,35 @@ def index():
 
 @bp.route("/welcome")
 def welcome():
-    return render_template("question/welcome.html")
+    score_data = generate_score_data()
+    print(score_data)
+    return render_template("question/welcome.html", score_data = score_data)
 
+def generate_score_data():
+    db = get_db()
+
+    score_data = []
+
+    user_scores = db.execute(
+        "SELECT mod_5_error_score, mod_6_error_score, mod_7_error_score, mod_8_error_score FROM error_scores WHERE user_id=?",
+        (g.user["id"],),
+    ).fetchone()
+    print(user_scores)
+    score_data.append(module_score("Advanced Mechanics", user_scores["mod_5_error_score"]))
+    score_data.append(module_score("Electromagnetics", user_scores["mod_6_error_score"]))
+    score_data.append(module_score("The Nature of Light", user_scores["mod_7_error_score"]))
+    score_data.append(module_score("From the Universe to the Atom", user_scores["mod_8_error_score"]))
+
+    return score_data
+
+def module_score(module_name, error_score):
+    score = {"module_name":module_name,
+            "incorrect_score":error_score,
+            "incorrect_percent":error_score * 2,
+            "correct_score":50-error_score,
+            "correct_percent":2*(50-error_score)
+            }
+    return score
 
 @bp.route("/test_your_level")
 def test_your_level():
@@ -60,6 +87,59 @@ def test_your_level():
         url_for("question.question_page", question_number=1, quiz_id=quiz_id)
     )
 
+@bp.route("/adaptive_quiz")
+def adaptive_quiz():
+    db = get_db()
+    mod_5_questions = db.execute("SELECT * FROM question WHERE module = '5'").fetchall()
+    mod_6_questions = db.execute("SELECT * FROM question WHERE module = '6'").fetchall()
+    mod_7_questions = db.execute("SELECT * FROM question WHERE module = '7'").fetchall()
+    mod_8_questions = db.execute("SELECT * FROM question WHERE module = '8'").fetchall()
+
+    quiz = {}
+
+    db = get_db()
+
+    user_scores = db.execute(
+        "SELECT mod_5_error_score, mod_6_error_score, mod_7_error_score, mod_8_error_score FROM error_scores WHERE user_id=?",
+        (g.user["id"],),
+    ).fetchone()
+
+    mod_5_question_amount = ({{user_scores["mod_5_error_score"]}}/total_error_score * 20)
+
+    add_module_questions(mod_5_questions, quiz, mod_5_question_amount)
+    add_module_questions(mod_6_questions, quiz, mod_6_question_amount)
+    add_module_questions(mod_7_questions, quiz, mod_7_question_amount)
+    add_module_questions(mod_8_questions, quiz, mod_8_question_amount)
+
+    print(g.user["id"])
+
+    cursor = db.cursor()
+    cursor.execute(
+        "INSERT INTO quiz (user_id) VALUES (?)",
+        (g.user["id"],),
+    )
+
+    quiz_id = cursor.lastrowid
+    question_number = 0
+
+    ids = list(quiz.keys())
+    random.shuffle(ids)
+
+    for id in ids:
+        question = quiz[id]
+        question_id = question["id"]
+        question_number += 1
+        db.execute(
+            "INSERT INTO question_response (quiz_id, question_id, question_number) VALUES (?, ?, ?)",
+            (quiz_id, question_id, question_number),
+        )
+        print(id, question["question_title"])
+
+    db.commit()
+
+    return redirect(
+        url_for("question.question_page", question_number=1, quiz_id=quiz_id)
+    )
 
 def add_module_questions(questions, quiz, number_of_questions):
     count = 1
@@ -204,3 +284,5 @@ def update_error_scores(quiz_id):
         ),
     )
     db.commit()
+
+
