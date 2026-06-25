@@ -206,8 +206,22 @@ def finish_quiz(quiz_id):
         print(result)
         for key in result.keys():
             print("key:" + str(key) + ",value:" + str(result[key]))
+    correct_amount = sum(
+        1 for result in results if result["user_answer"] == result["correct_answer"]
+    )
+    total_questions = 0
+    for r in results:
+        total_questions += 1
+    percentage = (correct_amount / total_questions) * 100 if total_questions > 0 else 0
+    percentage = round(percentage, 1)
+    total_questions = str(total_questions)
+
     return render_template(
-        "question/results-table.html", results=results, quiz_id=quiz_id
+        "question/results-table.html",
+        results=results,
+        quiz_id=quiz_id,
+        correct_amount=correct_amount,
+        percentage=percentage,
     )
 
 
