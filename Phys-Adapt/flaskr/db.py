@@ -29,6 +29,17 @@ def init_db():
         db.executescript(f.read().decode("utf8"))
 
 
+def get_user_scores():
+    db = get_db()
+
+    return db.execute(
+        "SELECT mod_5_error_score, mod_6_error_score, mod_7_error_score, mod_8_error_score "
+        "FROM error_scores WHERE user_id=? "
+        "ORDER BY updated_date_time DESC LIMIT 1",
+        (g.user["id"],),
+    ).fetchone()
+
+
 @click.command("init-db")
 def init_db_command():
     """Clear the existing data and create new tables."""

@@ -27,7 +27,10 @@
         </div>
       </div>
     <p>Correct questions: {{correct_amount}}</p>
-    <p>Percentage: {{percentage}}%</p>
+    <p>Percentage: {{percentage}}% </p> <br> 
+    <button class="return-button">
+      <a href="{{ url_for('question.welcome') }}"> Return to Homepage</a>
+    </button>
 </div>
 
 {% endblock %}

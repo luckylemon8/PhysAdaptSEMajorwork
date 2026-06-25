@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, g, redirect, url_for, request
-from flaskr.db import get_db
+from flaskr.db import get_db, get_user_scores
 import random
 
 bp = Blueprint("question", __name__)
@@ -22,16 +22,17 @@ def new_user():
     return render_template("question/test_your_level.html")
 
 
+@bp.route("/dashboard")
+def dashboard():
+    return render_template("question/dashboard.html")
+
+
 def generate_score_data():
     db = get_db()
 
     score_data = []
+    user_scores = get_user_scores()
 
-    user_scores = db.execute(
-        "SELECT mod_5_error_score, mod_6_error_score, mod_7_error_score, mod_8_error_score FROM error_scores WHERE user_id=?",
-        (g.user["id"],),
-    ).fetchone()
-    print(user_scores)
     score_data.append(
         module_score("Advanced Mechanics", user_scores["mod_5_error_score"])
     )
@@ -105,84 +106,90 @@ def test_your_level():
     )
 
 
-# @bp.route("/adaptive_quiz")
-# def adaptive_quiz():
-#     db = get_db()
-#     mod_5_questions = db.execute("SELECT * FROM question WHERE module = '5'").fetchall()
-#     mod_6_questions = db.execute("SELECT * FROM question WHERE module = '6'").fetchall()
-#     mod_7_questions = db.execute("SELECT * FROM question WHERE module = '7'").fetchall()
-#     mod_8_questions = db.execute("SELECT * FROM question WHERE module = '8'").fetchall()
+@bp.route("/adaptive_quiz")
+def adaptive_quiz():
+    db = get_db()
+    mod_5_questions = db.execute("SELECT * FROM question WHERE module = '5'").fetchall()
+    mod_6_questions = db.execute("SELECT * FROM question WHERE module = '6'").fetchall()
+    mod_7_questions = db.execute("SELECT * FROM question WHERE module = '7'").fetchall()
+    mod_8_questions = db.execute("SELECT * FROM question WHERE module = '8'").fetchall()
 
-#     quiz = {}
+    quiz = {}
+    TOTAL_QUESTIONS = 20
 
-#     db = get_db()
+    user_scores = get_user_scores()
 
-#     user_scores = db.execute(
-#         "SELECT mod_5_error_score, mod_6_error_score, mod_7_error_score, mod_8_error_score FROM error_scores WHERE user_id=?",
-#         (g.user["id"],),
-#     ).fetchone()
+    total_error_score = int(
+        user_scores["mod_5_error_score"]
+        + user_scores["mod_6_error_score"]
+        + user_scores["mod_7_error_score"]
+        + user_scores["mod_8_error_score"]
+    )
 
-#     total_error_score = int(
-#         user_scores["mod_5_error_score"]
-#         + user_scores["mod_6_error_score"]
-#         + user_scores["mod_7_error_score"]
-#         + user_scores["mod_8_error_score"]
-#     )
+    print(total_error_score)
 
-#     if total_error_score == 0:
-#         mod_5_question_amount = 5
-#         mod_6_question_amount = 5
-#         mod_7_question_amount = 5
-#         mod_8_question_amount = 5
+    if total_error_score == 0:
+        mod_5_question_amount = 5
+        mod_6_question_amount = 5
+        mod_7_question_amount = 5
+        mod_8_question_amount = 5
 
-#     else:
-#         mod_5_question_amount = (
-#             int(user_scores["mod_5_error_score"] / total_error_score) * 20
-#         )
-#         mod_6_question_amount = (
-#             int(user_scores["mod_6_error_score"] / total_error_score) * 20
-#         )
-#         mod_7_question_amount = (
-#             int(user_scores["mod_7_error_score"] / total_error_score) * 20
-#         )
-#         mod_8_question_amount = int(
-#             mod_5_question_amount + mod_6_question_amount + mod_7_question_amount
-#         )
+    else:
+        mod_5_question_amount = int(
+            user_scores["mod_5_error_score"] / total_error_score * TOTAL_QUESTIONS
+        )
+        mod_6_question_amount = int(
+            user_scores["mod_6_error_score"] / total_error_score * TOTAL_QUESTIONS
+        )
+        mod_7_question_amount = int(
+            user_scores["mod_7_error_score"] / total_error_score * TOTAL_QUESTIONS
+        )
+        mod_8_question_amount = int(
+            TOTAL_QUESTIONS
+            - (mod_5_question_amount + mod_6_question_amount + mod_7_question_amount)
+        )
 
-#     add_module_questions(mod_5_questions, quiz, mod_5_question_amount)
-#     add_module_questions(mod_6_questions, quiz, mod_6_question_amount)
-#     add_module_questions(mod_7_questions, quiz, mod_7_question_amount)
-#     add_module_questions(mod_8_questions, quiz, mod_8_question_amount)
+        print(
+            mod_5_question_amount,
+            mod_6_question_amount,
+            mod_7_question_amount,
+            mod_8_question_amount,
+        )
 
-#     print(g.user["id"])
+    add_module_questions(mod_5_questions, quiz, mod_5_question_amount)
+    add_module_questions(mod_6_questions, quiz, mod_6_question_amount)
+    add_module_questions(mod_7_questions, quiz, mod_7_question_amount)
+    add_module_questions(mod_8_questions, quiz, mod_8_question_amount)
 
-#     cursor = db.cursor()
-#     cursor.execute(
-#         "INSERT INTO quiz (user_id) VALUES (?)",
-#         (g.user["id"],),
-#     )
+    print(g.user["id"])
 
-#     quiz_id = cursor.lastrowid
-#     question_number = 0
+    cursor = db.cursor()
+    cursor.execute(
+        "INSERT INTO quiz (user_id) VALUES (?)",
+        (g.user["id"],),
+    )
 
-#     ids = list(quiz.keys())
-#     random.shuffle(ids)
+    quiz_id = cursor.lastrowid
+    question_number = 0
 
-#     for id in ids:
-#         question = quiz[id]
-#         question_id = question["id"]
-#         question_number += 1
-#         db.execute(
-#             "INSERT INTO question_response (quiz_id, question_id, question_number) VALUES (?, ?, ?)",
-#             (quiz_id, question_id, question_number),
-#         )
-#         print(id, question["question_title"])
+    ids = list(quiz.keys())
+    random.shuffle(ids)
 
-#     db.commit()
+    for id in ids:
+        question = quiz[id]
+        question_id = question["id"]
+        question_number += 1
+        db.execute(
+            "INSERT INTO question_response (quiz_id, question_id, question_number) VALUES (?, ?, ?)",
+            (quiz_id, question_id, question_number),
+        )
+        print(id, question["question_title"])
 
-#     return redirect(
-#         url_for("question.question_page", question_number=1, quiz_id=quiz_id)
-#     )
+    db.commit()
+
+    return redirect(
+        url_for("question.question_page", question_number=1, quiz_id=quiz_id)
+    )
 
 
 def add_module_questions(questions, quiz, number_of_questions):
@@ -229,6 +236,11 @@ def finish_quiz(quiz_id):
 def question_page(question_number, quiz_id):
     db = get_db()
 
+    total_questions = db.execute(
+        "SELECT COUNT(*) FROM question_response WHERE quiz_id = ?",
+        (quiz_id,),
+    ).fetchone()[0]
+
     if request.method == "POST":
         if request.form.get("answer"):
             answer = request.form["answer"]
@@ -263,7 +275,7 @@ def question_page(question_number, quiz_id):
 
     previous_question_number = question_number - 1
     next_question_number = question_number + 1
-    if next_question_number > 12:
+    if next_question_number > total_questions:
         next_question_number = 0
 
     print(previous_question_number)
@@ -301,10 +313,7 @@ def view_question(question_number, quiz_id):
 
 def update_error_scores(quiz_id):
     db = get_db()
-    base_user_scores = db.execute(
-        "SELECT mod_5_error_score, mod_6_error_score, mod_7_error_score, mod_8_error_score FROM error_scores WHERE user_id=?",
-        (g.user["id"],),
-    ).fetchone()
+    base_user_scores = get_user_scores()
 
     results = db.execute(
         "SELECT question_number, module, question_response.answer as user_answer, question.answer as correct_answer "
@@ -332,7 +341,7 @@ def update_error_scores(quiz_id):
             module_scores[key] = 0
 
     db.execute(
-        "UPDATE error_scores SET mod_5_error_score = ?, mod_6_error_score = ?, mod_7_error_score = ?, mod_8_error_score = ? WHERE user_id = ?",
+        "INSERT INTO error_scores (mod_5_error_score, mod_6_error_score, mod_7_error_score, mod_8_error_score, user_id) VALUES (?, ?, ?, ?, ?)",
         (
             module_scores[5],
             module_scores[6],

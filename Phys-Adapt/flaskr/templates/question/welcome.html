@@ -2,6 +2,8 @@
 <h1>Welcome to Phys-Adapt, {{ g.user['username'] }}</h1>
 {% endblock %} {% block content %}
 
+<div><a><br>Well done on completing the first test! <br> <br> Below are bar charts representing your personal performance for each module! As you improve on questions, the green section will grow. <br> <br> Your questions will be personalised to your weaker modules. Goodluck!</a></div>
+
 <div class="chart-container">
   {% for data in score_data %}
   <div class="bar-title">{{data["module_name"]}}</div>
@@ -9,9 +11,18 @@
     <div class="segment correct" style="width: {{data["correct_percent"]}}%">{{data["correct_score"]}}</div>
     <div class="segment incorrect" style="width: {{data["incorrect_percent"]}}%">{{data["incorrect_score"]}}</div>
   </div>
-  {% endfor %} {% endblock %}
+  {% endfor %}
 </div>
 
-<!-- <button>
-  <a href="{{ url_for('question.adaptive_quiz') }}"> Start Adaptive Quiz</a>
-</button> -->
+<div>
+  <a> <br>Continue refining your scores through the Adaptive quiz, made up of the same amount of multi choice as the HSC to maximise your exam performance! <br> <br></a>
+</div>
+<div class="button-row">
+  <button>
+    <a href="{{ url_for('question.adaptive_quiz') }}">Adaptive Quiz</a>
+  </button>
+  <button>
+    <a href="{{ url_for('question.dashboard') }}">Dashboard</a>
+  </button>
+</div>
+{% endblock %}
