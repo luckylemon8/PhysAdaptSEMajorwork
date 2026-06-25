@@ -9,5 +9,11 @@
     <div class="segment correct" style="width: {{data["correct_percent"]}}%">{{data["correct_score"]}}</div>
     <div class="segment incorrect" style="width: {{data["incorrect_percent"]}}%">{{data["incorrect_score"]}}</div>
   </div>
-  {% endfor %} {% endblock %}
+  {% endfor %}
 </div>
+
+<!-- <button>
+  <a href="{{ url_for('question.adaptive_quiz') }}"> Start Adaptive Quiz</a>
+</button> -->
+
+{% endblock %}
