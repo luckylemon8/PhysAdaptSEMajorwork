@@ -8,8 +8,8 @@
   {% for data in score_data %}
   <div class="bar-title">{{data["module_name"]}}</div>
   <div class="stacked-bar">
-    <div class="segment correct" style="width: {{data["correct_percent"]}}%">{{data["correct_score"]}}</div>
-    <div class="segment incorrect" style="width: {{data["incorrect_percent"]}}%">{{data["incorrect_score"]}}</div>
+    <div class="segment correct" style="width: {{data["correct_percent"]}}%">{{data["correct_percent"]}}%</div>
+    <div class="segment incorrect" style="width: {{data["incorrect_percent"]}}%">{{data["incorrect_percent"]}}%</div>
   </div>
   {% endfor %}
 </div>

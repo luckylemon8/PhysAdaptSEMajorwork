@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, g, redirect, url_for, request
 from flaskr.db import get_db, get_user_scores
 import random
+from flaskr.auth import login_required
 
 bp = Blueprint("question", __name__)
 
@@ -11,6 +12,7 @@ def index():
 
 
 @bp.route("/welcome")
+@login_required
 def welcome():
     score_data = generate_score_data()
     print(score_data)
@@ -18,13 +20,71 @@ def welcome():
 
 
 @bp.route("/new_user")
+@login_required
 def new_user():
     return render_template("question/test_your_level.html")
 
 
 @bp.route("/dashboard")
+@login_required
 def dashboard():
-    return render_template("question/dashboard.html")
+    db = get_db()
+    error_scores = db.execute(
+        "SELECT * FROM error_scores WHERE user_id = ?",
+        (g.user["id"],),
+    ).fetchall()
+
+    dashboard_data = []
+
+    score = error_scores[0]
+    snapshot = {}
+
+    snapshot["mod_5_score"] = str(2 * (50 - int(score["mod_5_error_score"])))
+    snapshot["mod_5_start"] = str(int(snapshot["mod_5_score"]) / 100)
+    snapshot["mod_5_end"] = str(int(snapshot["mod_5_score"]) / 100)
+    snapshot["mod_6_score"] = str(2 * (50 - int(score["mod_6_error_score"])))
+    snapshot["mod_6_start"] = str(int(snapshot["mod_6_score"]) / 100)
+    snapshot["mod_6_end"] = str(int(snapshot["mod_6_score"]) / 100)
+    snapshot["mod_7_score"] = str(2 * (50 - int(score["mod_7_error_score"])))
+    snapshot["mod_7_start"] = str(int(snapshot["mod_7_score"]) / 100)
+    snapshot["mod_7_end"] = str(int(snapshot["mod_7_score"]) / 100)
+    snapshot["mod_8_score"] = str(2 * (50 - int(score["mod_8_error_score"])))
+    snapshot["mod_8_start"] = str(int(snapshot["mod_8_score"]) / 100)
+    snapshot["mod_8_end"] = str(int(snapshot["mod_8_score"]) / 100)
+
+    dashboard_data.append(snapshot)
+
+    previous_mod_5_score = str(2 * (50 - int(score["mod_5_error_score"])))
+    previous_mod_6_score = str(2 * (50 - int(score["mod_6_error_score"])))
+    previous_mod_7_score = str(2 * (50 - int(score["mod_7_error_score"])))
+    previous_mod_8_score = str(2 * (50 - int(score["mod_8_error_score"])))
+    for score in error_scores[1:]:
+        snapshot = {}
+
+        snapshot["mod_5_score"] = str(2 * (50 - int(score["mod_5_error_score"])))
+        snapshot["mod_5_start"] = str(int(previous_mod_5_score) / 100)
+        snapshot["mod_5_end"] = str(int(snapshot["mod_5_score"]) / 100)
+        previous_mod_5_score = snapshot["mod_5_score"]
+
+        snapshot["mod_6_score"] = str(2 * (50 - int(score["mod_6_error_score"])))
+        snapshot["mod_6_start"] = str(int(previous_mod_6_score) / 100)
+        snapshot["mod_6_end"] = str(int(snapshot["mod_6_score"]) / 100)
+        previous_mod_6_score = snapshot["mod_6_score"]
+
+        snapshot["mod_7_score"] = str(2 * (50 - int(score["mod_7_error_score"])))
+        snapshot["mod_7_start"] = str(int(previous_mod_7_score) / 100)
+        snapshot["mod_7_end"] = str(int(snapshot["mod_7_score"]) / 100)
+        previous_mod_7_score = snapshot["mod_7_score"]
+
+        snapshot["mod_8_score"] = str(2 * (50 - int(score["mod_8_error_score"])))
+        snapshot["mod_8_start"] = str(int(previous_mod_8_score) / 100)
+        snapshot["mod_8_end"] = str(int(snapshot["mod_8_score"]) / 100)
+        previous_mod_8_score = snapshot["mod_8_score"]
+
+        print(snapshot)
+        dashboard_data.append(snapshot)
+
+    return render_template("question/dashboard.html", dashboard_data=dashboard_data)
 
 
 def generate_score_data():
@@ -61,6 +121,7 @@ def module_score(module_name, error_score):
 
 
 @bp.route("/test_your_level")
+@login_required
 def test_your_level():
     db = get_db()
     mod_5_questions = db.execute("SELECT * FROM question WHERE module = '5'").fetchall()
@@ -107,6 +168,7 @@ def test_your_level():
 
 
 @bp.route("/adaptive_quiz")
+@login_required
 def adaptive_quiz():
     db = get_db()
     mod_5_questions = db.execute("SELECT * FROM question WHERE module = '5'").fetchall()
@@ -202,6 +264,7 @@ def add_module_questions(questions, quiz, number_of_questions):
 
 
 @bp.route("/finish_quiz/<int:quiz_id>")
+@login_required
 def finish_quiz(quiz_id):
     db = get_db()
     results = db.execute(
@@ -233,6 +296,7 @@ def finish_quiz(quiz_id):
 
 
 @bp.route("/question/<int:question_number>/<int:quiz_id>", methods=("GET", "POST"))
+@login_required
 def question_page(question_number, quiz_id):
     db = get_db()
 
@@ -291,6 +355,7 @@ def question_page(question_number, quiz_id):
 
 
 @bp.route("/question_viewer/<int:question_number>/<int:quiz_id>")
+@login_required
 def view_question(question_number, quiz_id):
     db = get_db()
 

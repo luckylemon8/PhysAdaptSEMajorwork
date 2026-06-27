@@ -3,14 +3,19 @@
   <title>{% block title %}{% endblock %} - Phys-Adapt</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='chart.css') }}" />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='charts.min.css') }}"
+  />
 </head>
 <body>
   <nav class="nav">
     <h1>
-      <img
-        src="{{ url_for('static', filename='images/logo.jpeg') }}"
-        alt="Phys Adapt"
-      />
+      <a href="{{ url_for('question.welcome') }}"
+        ><img
+          src="{{ url_for('static', filename='images/logo.jpeg') }}"
+          alt="Phys Adapt"
+      /></a>
     </h1>
     <ul class="nav-links">
       {% if g.user %}
