@@ -101,6 +101,9 @@ body {
   color: #1a1a18;
 }
 
+h1 {
+  margin-bottom: 2rem;
+}
 /* ── Sections for splitting up page ── */
 .section {
   margin-bottom: 2rem;
@@ -332,4 +335,11 @@ img.question {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.charts-css th {
+  transform-origin: center;
+  white-space: nowrap;
+  font-size: 13px;
+  transform: rotate(-7deg);
 }

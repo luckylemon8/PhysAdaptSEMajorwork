@@ -3,6 +3,7 @@
 {% if g.user %} {% endif %}
 
 <div class="section">
+  <div class="section-title">Module 5: Advanced Mechanics</div>
   <div class="table-wrap">
     <table
       class="charts-css line multiple show-primary-axis show-labels"
@@ -10,14 +11,8 @@
       <tbody>
         {% for snapshot in dashboard_data %}
         <tr>
-          <th scope="row">1/3/2026</th>
+          <th scope="row">{{snapshot["date"]}}</th>
           <td style="--start: {{snapshot["mod_5_start"]}}; --end: {{snapshot["mod_5_end"]}}">{{snapshot["mod_5_score"]}}</td>
-          <th scope="row">1/3/2026</th>
-          <td style="--start: {{snapshot["mod_6_start"]}}; --end: {{snapshot["mod_6_end"]}}">{{snapshot["mod_6_score"]}}</td>
-          <th scope="row">1/3/2026</th>
-          <td style="--start: {{snapshot["mod_7_start"]}}; --end: {{snapshot["mod_7_end"]}}">{{snapshot["mod_7_score"]}}</td>
-          <th scope="row">1/3/2026</th>
-          <td style="--start: {{snapshot["mod_8_start"]}}; --end: {{snapshot["mod_8_end"]}}">{{snapshot["mod_8_score"]}}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -25,4 +20,59 @@
   </div>
 </div>
 
+<div class="section">
+  <div class="section-title">Module 6: Electromagnetism</div>
+  <div class="table-wrap">
+    <table
+      class="charts-css line multiple show-primary-axis show-labels"
+    >
+      <tbody>
+        {% for snapshot in dashboard_data %}
+        <tr>
+          <th scope="row">{{snapshot["date"]}}</th>
+          <td style="--start: {{snapshot["mod_6_start"]}}; --end: {{snapshot["mod_6_end"]}}">{{snapshot["mod_6_score"]}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="section">
+  <div class="section-title">Module 7: The Nature of Light</div>
+  <div class="table-wrap">
+    <table
+      class="charts-css line multiple show-primary-axis show-labels"
+    >
+      <tbody>
+        {% for snapshot in dashboard_data %}
+        <tr>
+          <th scope="row">{{snapshot["date"]}}</th>
+          <td style="--start: {{snapshot["mod_7_start"]}}; --end: {{snapshot["mod_7_end"]}}">{{snapshot["mod_7_score"]}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="section">
+  <div class="section-title">Module 8: From the Universe to the Atom</div>
+  <div class="table-wrap">
+    <table
+      class="charts-css line multiple show-primary-axis show-labels"
+    >
+      <tbody>
+        {% for snapshot in dashboard_data %}
+        <tr>
+          <th scope="row">{{snapshot["date"]}}</th>
+          <td style="--start: {{snapshot["mod_8_start"]}}; --end: {{snapshot["mod_8_end"]}}">{{snapshot["mod_8_score"]}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}

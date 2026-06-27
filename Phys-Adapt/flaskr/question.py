@@ -30,13 +30,14 @@ def new_user():
 def dashboard():
     db = get_db()
     error_scores = db.execute(
-        "SELECT * FROM error_scores WHERE user_id = ?",
+        "SELECT * FROM error_scores WHERE user_id = ? ORDER BY updated_date_time DESC LIMIT 8",
         (g.user["id"],),
     ).fetchall()
 
+    error_scores.reverse()
     dashboard_data = []
 
-    score = error_scores[0]
+    score = error_scores[1]
     snapshot = {}
 
     snapshot["mod_5_score"] = str(2 * (50 - int(score["mod_5_error_score"])))
@@ -51,6 +52,7 @@ def dashboard():
     snapshot["mod_8_score"] = str(2 * (50 - int(score["mod_8_error_score"])))
     snapshot["mod_8_start"] = str(int(snapshot["mod_8_score"]) / 100)
     snapshot["mod_8_end"] = str(int(snapshot["mod_8_score"]) / 100)
+    snapshot["date"] = score["updated_date_time"].strftime("%d-%m-%y")
 
     dashboard_data.append(snapshot)
 
@@ -58,7 +60,7 @@ def dashboard():
     previous_mod_6_score = str(2 * (50 - int(score["mod_6_error_score"])))
     previous_mod_7_score = str(2 * (50 - int(score["mod_7_error_score"])))
     previous_mod_8_score = str(2 * (50 - int(score["mod_8_error_score"])))
-    for score in error_scores[1:]:
+    for score in error_scores[2:]:
         snapshot = {}
 
         snapshot["mod_5_score"] = str(2 * (50 - int(score["mod_5_error_score"])))
@@ -81,6 +83,7 @@ def dashboard():
         snapshot["mod_8_end"] = str(int(snapshot["mod_8_score"]) / 100)
         previous_mod_8_score = snapshot["mod_8_score"]
 
+        snapshot["date"] = score["updated_date_time"].strftime("%d-%m-%y")
         print(snapshot)
         dashboard_data.append(snapshot)
 
