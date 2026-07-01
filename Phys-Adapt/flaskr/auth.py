@@ -1,5 +1,7 @@
 import functools
+import re
 from datetime import datetime
+
 
 from flask import (
     Blueprint,
@@ -28,8 +30,16 @@ def register():
 
         if not username:
             error = "Username is required."
+        elif len(username) >= 10:
+            error = "Username must be shorter than 10 characters."
         elif not password:
             error = "Password is required."
+        elif len(password) <= 8:
+            error = "Password must be more than 8 characters."
+        elif not (re.search(r"[a-zA-Z]", password) and re.search(r"\d", password)):
+            error = "Password must contain both letters and numbers."
+        else:
+            error = None
 
         if error is None:
             try:
