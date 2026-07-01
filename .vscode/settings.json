@@ -24,5 +24,6 @@
   "chat.agent.enabled": false,
   "github.copilot.chat.participant.alwaysInclude": [
     "github/copilot-instructions.md"
-  ]
+  ],
+  "issueReporter.experimental.webReporter": true
 }
